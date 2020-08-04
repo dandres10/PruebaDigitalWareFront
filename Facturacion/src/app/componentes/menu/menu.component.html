@@ -1,0 +1,36 @@
+<div class="narvar">
+    <div class="row menu">
+        <div class="col-2 m-4 ml-5">
+            <button mat-button [matMenuTriggerFor]="inicio" class="btnMenu">
+        Menu
+      </button>
+            <mat-menu #inicio="matMenu">
+                <button mat-menu-item routerLink="producto">Producto</button>
+                <button mat-menu-item>Cliente</button>
+                <button mat-menu-item>Inventario Producto</button>
+                <button mat-menu-item>Compra</button>
+                <button mat-menu-item>Reportes</button>
+            </mat-menu>
+        </div>
+
+        <div class="col-9 mt-4 text-right">
+            <h1> Facturacion </h1>
+        </div>
+    </div>
+
+
+    <!-- <div class="container pt-5">
+        <p>
+            <strong>Desarrollador</strong> - Marlon Andres Leon Leon
+        </p>
+        <p>
+            <strong>Prueba Tecnica</strong>
+        </p>
+        <p>
+            <strong>2020</strong>
+        </p>
+    </div> -->
+
+
+
+</div>
