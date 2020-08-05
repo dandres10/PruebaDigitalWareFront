@@ -13,12 +13,14 @@ import { ProductoComponent } from './componentes/producto/producto.component';
 import { MenuComponent } from './componentes/menu/menu.component';
 
 import {ProductoRutas} from './transversales/servicioRest/nombresServiciosRest/producto/productoRutas';
+import { DialogComponent } from './transversales/dialog/dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductoComponent,
-    MenuComponent
+    MenuComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,7 @@ import {ProductoRutas} from './transversales/servicioRest/nombresServiciosRest/p
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ProductoRutas],
+  providers: [ProductoRutas,DialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

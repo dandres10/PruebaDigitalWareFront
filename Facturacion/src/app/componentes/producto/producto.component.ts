@@ -8,6 +8,10 @@ import { RespuestaConsultarListaProductosVendidoAno } from '../../modelos/produc
 import { ConsultarListaProductosVendidoAno } from '../../modelos/producto/consultarListaProductosVendidoAno';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DialogComponent } from '../../transversales/dialog/dialog.component';
+
+
+
 
 
 @Component({
@@ -18,17 +22,26 @@ import { Router } from '@angular/router';
 export class ProductoComponent {
 
 
-  constructor(private _productoService: ProductoService,private fb: FormBuilder, private router: Router) {
+  constructor(private _productoService: ProductoService,
+    private fb: FormBuilder,
+    private router: Router,
+    private dialogComponent: DialogComponent) {
 
     this.ConsultarListaProductos();
+    this.crearFormulario();
+    this.cargarFormulario();
 
-    setTimeout(()=>{
-    console.log(this.listaProductos);
-    },3000);
+   
 
-   }
+    setTimeout(() => {
+      console.log(this.listaProductos);
+      this.ELEMENTOS_TABLA = this.listaProductos;
+    }, 2000);
+
+  }
 
   //Metodos
+  //ServiciosRest
   GuardarProducto(producto: Producto) {
     this._productoService.Guardar<Producto>(producto)
       .subscribe((respuesta: Respuesta<Producto>) =>
@@ -70,8 +83,87 @@ export class ProductoComponent {
       .subscribe((repuesta: Respuesta<RespuestaConsultarListaProductosVendidoAno>) =>
         this.respuestaConsultarListaProductosVendidoAno = repuesta.entidades);
   }
+  //Fin serviciosRest
 
 
+  //Logica 
+  guardar() {
+    if (this.formularioProducto.valid) {
+      this.GuardarProducto(this.cargarObjetoProducto());
+      this.limpiarFormulario();
+    }
+  }
+
+
+  abrirModal() {
+    if (this.respuestaGuardarProducto != undefined || this.respuestaGuardarProducto != null) {
+      this.respuestaTransversal = this.respuestaGuardarProducto;
+      this.dialogComponent.openDialog(this.respuestaTransversal);
+      console.log(this.respuestaTransversal);
+
+    }
+  }
+
+
+
+  cargarObjetoProducto(): Producto {
+    return this.producto = {
+      nombre: this.formularioProducto.get('nombre').value,
+      precio: this.formularioProducto.get('precio').value
+    }
+  }
+
+
+
+  //Fin Logica 
+
+  //Formularios
+  crearFormulario() {
+    this.formularioProducto = this.fb.group({
+      nombre: ['', [Validators.required]],
+      precio: ['', [Validators.required]],
+      cantidad: ['', [Validators.required]]
+    });
+  }
+
+  limpiarFormulario() {
+    this.formularioProducto.reset({
+      nombre: '',
+      precio: '',
+      cantidad: ''
+    });
+
+
+  }
+
+  cargarFormulario() {
+    this.formularioProducto.reset({
+      nombre: 'Piña',
+      precio: '2000',
+      cantidad: '45'
+    });
+
+
+  }
+  //Fin formularios
+
+
+  //Validaciones
+  get nombreNoValido() {
+    return this.formularioProducto.get('nombre').invalid &&
+      this.formularioProducto.get('nombre').touched;
+  }
+
+  get precioNoValido() {
+    return this.formularioProducto.get('precio').invalid &&
+      this.formularioProducto.get('precio').touched;
+  }
+
+  get cantidadNoValido() {
+    return this.formularioProducto.get('cantidad').invalid &&
+      this.formularioProducto.get('cantidad').touched;
+  }
+  //Fin validaciones
 
   //Fin metodos
 
@@ -84,6 +176,11 @@ export class ProductoComponent {
   respuestaConsultarProducto: Respuesta<Producto>;
   respuestaCantidadMinimaPermitida: RespuestaCantidadMinimaPermitida[] = [];
   respuestaConsultarListaProductosVendidoAno: RespuestaConsultarListaProductosVendidoAno[] = [];
+  producto: Producto;
+  respuestaTransversal: Respuesta<Producto>;
+  ELEMENTOS_TABLA: Producto[] = [];
+  
+  displayedColumns: string[] = ['codigo', 'nombre', 'precio'];
   //Fin variables
 
   //variables Visuales

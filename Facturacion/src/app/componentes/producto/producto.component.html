@@ -2,42 +2,85 @@
     <div class="row">
         <h2>Producto</h2>
     </div>
-    <div class="row">
-        <div class="card" style="width: 100%;">
-            <div class="card-body">
-                <h3 class="card-title">Crear Producto</h3>
-                <div class="row">
-                    <div class="col-6">
-                        <label>Nombre</label>
-                        <input type="text" class="form-control" />
-                        <small class="form-text text-muted">We'll never share your email with anyone else.</small
-            >
-          </div>
-          <div class="col-6">
-            <label>Precio</label>
-            <input type="number" class="form-control" />
-            <small class="form-text text-muted"
-              >We'll never share your email with anyone else.</small
-            >
-          </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col-4">
-            <label>Cantidad</label>
-            <input type="number" class="form-control" />
-            <small class="form-text text-muted"
-              >We'll never share your email with anyone else.</small
-            >
-          </div>
-        </div><br>
-        <div class="row ">
-            <div class="col ">
 
-                <button type="button" class="btn btn-primary  btn-block">Primary</button>
+    <div autocomplete="off" [formGroup]="formularioProducto" (ngSubmit)="guardar()">
+        <div class="row">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h3 class="card-title">Crear Producto</h3>
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [class.is-invalid]="nombreNoValido" />
+                            <small *ngIf="nombreNoValido" class="text-danger">Dato no valido</small
+              >
             </div>
+            <div class="col-6">
+              <label>Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Precio"
+                formControlName="precio"
+                [class.is-invalid]="precioNoValido"
+              />
+              <small *ngIf="precioNoValido" class="text-danger"
+                >Dato no valido</small
+              >
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-6">
+              <label>Cantidad</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Cantidad"
+                formControlName="cantidad"
+                [class.is-invalid]="cantidadNoValido"
+              />
+              <small *ngIf="cantidadNoValido" class="text-danger"
+                >Dato no valido</small
+              >
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col">
+              <button type="submit" class="btn btn-primary btn-block" (click)="guardar()">
+                Guardar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div><br>
+  <br>
+  <br>
+
+  <div class="row" >
+    <div class="col-12">
+
+      <mat-table   [dataSource]="ELEMENTOS_TABLA" class="mat-elevation-z8">
+        <ng-container matColumnDef="codigo">
+          <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+          <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="precio">
+          <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.precio}} </mat-cell>
+        </ng-container>
+        
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>  
+  
   </div>
 </div>
